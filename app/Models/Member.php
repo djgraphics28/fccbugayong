@@ -68,7 +68,8 @@ class Member extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('profile_picture')
-            ->singleFile(); // Allow only one file in the collection
+            ->singleFile() // Allow only one file in the collection
+            ->useDisk('public');
     }
 
     public function getFullNameAttribute()
