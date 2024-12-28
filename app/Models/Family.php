@@ -15,6 +15,7 @@ class Family extends Model
         'family_name',
         'father',
         'mother',
+        'is_active',
     ];
 
     public function member()
