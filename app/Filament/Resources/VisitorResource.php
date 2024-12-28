@@ -19,6 +19,10 @@ class VisitorResource extends Resource
     protected static ?string $model = Visitor::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function form(Form $form): Form
     {
@@ -44,11 +48,11 @@ class VisitorResource extends Resource
                     ->relationship('member', 'invited_by')
                     ->getOptionLabelFromRecordUsing(fn($record) =>
                         "<div class='flex items-center gap-2'>
-                            <img src='" . ($record->getFirstMediaUrl('profile_picture') ?: asset('images/male.png')) . "' 
+                            <img src='" . ($record->getFirstMediaUrl('avatar') ?: ($record->gender === 'Female' ? asset('images/female.png') : asset('images/male.png'))) . "'
                             class='w-8 h-8 rounded-full object-cover'/>
                             <span>{$record->first_name} {$record->last_name}" . ($record->ext_name ? " {$record->ext_name}" : "") . "</span>
                         </div>")
-                    ->searchable()
+                    ->searchable(['first_name', 'last_name'])
                     ->preload()
                     ->allowHtml(),
             ]);
@@ -92,7 +96,7 @@ class VisitorResource extends Resource
                     ->formatStateUsing(
                         fn($record, $state) =>
                         "<div class='flex items-center gap-2'>
-                            <img src='" . ($record->member?->getFirstMediaUrl('profile_picture') ?: ($record->member?->gender === 'Female' ? asset('images/female.png') : asset('images/male.png'))) . "' 
+                            <img src='" . ($record->member?->getFirstMediaUrl('avatar') ?: ($record->member?->gender === 'Female' ? asset('images/female.png') : asset('images/male.png'))) . "'
                             class='w-8 h-8 rounded-full object-cover'/>
                             <span>{$state}</span>
                         </div>"

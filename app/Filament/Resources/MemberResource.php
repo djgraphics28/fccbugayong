@@ -21,17 +21,22 @@ class MemberResource extends Resource
     protected static ?string $model = Member::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 SpatieMediaLibraryFileUpload::make('avatar')
-                    ->image()              // Validate as an image
-                    ->maxSize(1024)        // Size in KB
-                    ->acceptedFileTypes(['image/jpeg', 'image/png']) // Specify allowed file types
-                    ->collection('profile_picture')
+                    ->image()
+                    ->maxSize(2048)
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif'])
+                    ->collection('avatar')
                     ->preserveFilenames()
-                    ->disk('local')
+                    ->disk('public')
                     ->maxFiles(1),
                 Forms\Components\TextInput::make('first_name')
                     ->required()
@@ -83,13 +88,13 @@ class MemberResource extends Resource
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('Active')
                     ->boolean(),
-                Tables\Columns\ImageColumn::make('profile_picture')
+                Tables\Columns\ImageColumn::make('avatar')
                     ->label('Image')
                     ->circular()
                     ->defaultImageUrl(
                         fn($record) =>
-                        $record->getFirstMediaUrl('profile_picture')
-                        ? $record->getFirstMediaUrl('profile_picture')
+                        $record->getFirstMediaUrl('avatar')
+                        ? $record->getFirstMediaUrl('avatar')
                         : ($record->gender === 'Male'
                             ? asset('images/male.png')
                             : asset('images/female.png'))

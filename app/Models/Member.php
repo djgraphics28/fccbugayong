@@ -7,6 +7,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\Conversions\Manipulations;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -75,5 +76,25 @@ class Member extends Model implements HasMedia
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name . ' ' . $this->ext_name;
+    }
+
+    /**
+     * Get all of the care_group_leaders for the Member
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function care_group_leaders(): HasMany
+    {
+        return $this->hasMany(CareGroup::class, 'leader', 'id');
+    }
+
+    /**
+     * Get all of the care_group_leaders for the Member
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function care_group_mentors(): HasMany
+    {
+        return $this->hasMany(CareGroup::class, 'mentor', 'id');
     }
 }

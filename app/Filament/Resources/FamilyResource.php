@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Illuminate\Support\Collection;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\FamilyResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -19,6 +20,11 @@ class FamilyResource extends Resource
     protected static ?string $model = Family::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
     public static function form(Form $form): Form
     {
         return $form
@@ -34,7 +40,7 @@ class FamilyResource extends Resource
                     ->relationship('fatherData', 'first_name')
                     ->getOptionLabelFromRecordUsing(fn($record) =>
                         "<div class='flex items-center gap-2'>
-                            <img src='" . ($record->getFirstMediaUrl('profile_picture') ?: asset('images/male.png')) . "' 
+                            <img src='" . ($record->getFirstMediaUrl('avatar') ?: asset('images/male.png')) . "'
                             class='w-8 h-8 rounded-full object-cover'/>
                             <span>{$record->first_name} {$record->last_name}" . ($record->ext_name ? " {$record->ext_name}" : "") . "</span>
                         </div>")
@@ -46,7 +52,7 @@ class FamilyResource extends Resource
                     ->relationship('motherData', 'first_name')
                     ->getOptionLabelFromRecordUsing(fn($record) =>
                         "<div class='flex items-center gap-2'>
-                            <img src='" . ($record->getFirstMediaUrl('profile_picture') ?: asset('images/female.png')) . "' 
+                            <img src='" . ($record->getFirstMediaUrl('avatar') ?: asset('images/female.png')) . "'
                             class='w-8 h-8 rounded-full object-cover'/>
                             <span>{$record->first_name} {$record->last_name}" . ($record->ext_name ? " {$record->ext_name}" : "") . "</span>
                         </div>")
@@ -68,7 +74,7 @@ class FamilyResource extends Resource
                     ->formatStateUsing(
                         fn($record, $state) =>
                         "<div class='flex items-center gap-2'>
-                            <img src='" . ($record->fatherData?->getFirstMediaUrl('profile_picture') ?: asset('images/male.png')) . "' 
+                            <img src='" . ($record->fatherData?->getFirstMediaUrl('avatar') ?: asset('images/male.png')) . "'
                             class='w-8 h-8 rounded-full object-cover'/>
                             <span>{$state}</span>
                         </div>"
@@ -80,12 +86,28 @@ class FamilyResource extends Resource
                     ->formatStateUsing(
                         fn($record, $state) =>
                         "<div class='flex items-center gap-2'>
-                            <img src='" . ($record->motherData?->getFirstMediaUrl('profile_picture') ?: asset('images/female.png')) . "' 
+                            <img src='" . ($record->motherData?->getFirstMediaUrl('avatar') ?: asset('images/female.png')) . "'
                             class='w-8 h-8 rounded-full object-cover'/>
                             <span>{$state}</span>
                         </div>"
                     )
                     ->html(),
+                Tables\Columns\ToggleColumn::make('is_active')
+                    ->label('Active')
+                    ->sortable()
+                    ->afterStateUpdated(function ($record) {
+                        if ($record->is_active) {
+                            Notification::make()
+                                ->title('Family Activated')
+                                ->success()
+                                ->send();
+                        } else {
+                            Notification::make()
+                                ->title('Family Deactivated')
+                                ->warning()
+                                ->send();
+                        }
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -96,7 +118,11 @@ class FamilyResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\TernaryFilter::make('is_active')
+                    ->label('Active Status')
+                    ->placeholder('All Statuses')
+                    ->trueLabel('Active Only')
+                    ->falseLabel('Inactive Only')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
