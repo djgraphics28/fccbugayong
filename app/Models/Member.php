@@ -97,4 +97,14 @@ class Member extends Model implements HasMedia
     {
         return $this->hasMany(CareGroup::class, 'mentor', 'id');
     }
+
+    /**
+     * Get all of the attendances for the Member
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function attendances(): HasMany
+    {
+        return $this->hasMany(Attendance::class, 'member_id', 'id');
+    }
 }
