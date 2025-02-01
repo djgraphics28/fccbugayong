@@ -73,7 +73,7 @@
             </div>
 
             <div>
-                <label class="block text-gray-700 font-medium">Are You a Visitor?</label>
+                <label class="block text-gray-700 font-medium">Are you a visitor?</label>
                 <div class="flex space-x-4 mt-2">
                     <label class="inline-flex items-center">
                         <input type="radio" wire:model.live="is_visitor" value="Yes" class="form-radio text-blue-600">
