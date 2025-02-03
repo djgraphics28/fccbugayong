@@ -18,3 +18,7 @@ Route::get('/youthcamp-preregistration', function () {
 Route::get('/lcr-preregistration', function () {
     return view('lcr-registration');
 })->name('lcr-preregistration');
+
+Route::get('/couples-preregistration', function () {
+    return view('couples-registration');
+})->name('couples-preregistration');
