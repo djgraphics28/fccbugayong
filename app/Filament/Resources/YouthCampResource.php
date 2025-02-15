@@ -85,7 +85,7 @@ class YouthCampResource extends Resource
                     ]),
                 SelectFilter::make('church')
                     ->options([
-                        'Visitors' => '',
+                        '' => 'Visitors',
                         'FCC Bugayong' => 'FCC Bugayong',
                         'FCC San Bonifacio' => 'FCC San Bonifacio',
                     ]),
