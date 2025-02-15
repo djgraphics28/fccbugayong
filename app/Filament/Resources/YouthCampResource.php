@@ -86,8 +86,7 @@ class YouthCampResource extends Resource
                 SelectFilter::make('church')
                     ->label('Church')
                     ->options([
-                        '' => 'All', // Default option to show all records
-                        'null' => 'Visitors', // Special value for NULL filtering
+                        NULL => 'Visitors', // Special value for NULL filtering
                         'FCC Bugayong' => 'FCC Bugayong',
                         'FCC San Bonifacio' => 'FCC San Bonifacio',
                     ])
