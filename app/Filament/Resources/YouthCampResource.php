@@ -91,11 +91,6 @@ class YouthCampResource extends Resource
                         'FCC Bugayong' => 'FCC Bugayong',
                         'FCC San Bonifacio' => 'FCC San Bonifacio',
                     ])
-                    ->query(
-                        fn($query, $value) =>
-                        $value === 'null' ? $query->whereNull('church') :
-                        ($value !== '' ? $query->where('church', $value) : $query)
-                    ),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
