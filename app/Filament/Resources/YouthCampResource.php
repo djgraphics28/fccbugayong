@@ -83,18 +83,14 @@ class YouthCampResource extends Resource
                         'Male' => 'Male',
                         'Female' => 'Female',
                     ]),
-                SelectFilter::make('visitors_only')
-                    ->label('Show Only Visitors')
-                    ->options([
-                        '1' => 'Yes',
-                        '0' => 'No',
-                    ])
-                    ->query(fn($query, $value) => $value === '1' ? $query->whereNull('church') : $query),
                 SelectFilter::make('church')
+                    ->label('Church')
                     ->options([
+                        '' => 'Visitors', // Filters records where church is NULL
                         'FCC Bugayong' => 'FCC Bugayong',
                         'FCC San Bonifacio' => 'FCC San Bonifacio',
-                    ]),
+                    ])
+                    ->query(fn($query, $value) => $value === '' ? $query->whereNull('church') : $query->where('church', $value)),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
