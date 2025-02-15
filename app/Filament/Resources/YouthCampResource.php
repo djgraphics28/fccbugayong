@@ -83,14 +83,14 @@ class YouthCampResource extends Resource
                         'Male' => 'Male',
                         'Female' => 'Female',
                     ]),
-                SelectFilter::make('church')
+                    SelectFilter::make('church')
                     ->label('Church')
                     ->options([
-                        '' => 'Visitors', // Filters records where church is NULL
+                        'null' => 'Visitors', // Special value for NULL filtering
                         'FCC Bugayong' => 'FCC Bugayong',
                         'FCC San Bonifacio' => 'FCC San Bonifacio',
                     ])
-                    ->query(fn($query, $value) => $value === '' ? $query->whereNull('church') : $query->where('church', $value)),
+                    ->query(fn ($query, $value) => $value === 'null' ? $query->whereNull('church') : ($value ? $query->where('church', $value) : $query)),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
