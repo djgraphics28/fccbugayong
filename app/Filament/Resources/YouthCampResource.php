@@ -83,6 +83,12 @@ class YouthCampResource extends Resource
                         'Male' => 'Male',
                         'Female' => 'Female',
                     ]),
+                SelectFilter::make('church')
+                    ->options([
+                        'Visitors' => '',
+                        'FCC Bugayong' => 'FCC Bugayong',
+                        'FCC San Bonifacio' => 'FCC San Bonifacio',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
