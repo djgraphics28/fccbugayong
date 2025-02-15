@@ -56,8 +56,8 @@ class YouthCampResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('full_name')
                     ->label('Full Name')
-                    ->getStateUsing(fn($record) => trim($record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name . ' ' . $record->suffix))
-                    ->searchable(),
+                    ->getStateUsing(fn($record) => trim($record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name . ' ' . $record->suffix)),
+                    // ->searchable(),
                 Tables\Columns\TextColumn::make('gender'),
                 Tables\Columns\TextColumn::make('nickname')->searchable(),
                 Tables\Columns\TextColumn::make('contact_number')->searchable(),
