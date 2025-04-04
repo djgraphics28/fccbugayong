@@ -44,7 +44,7 @@ class YouthCampResource extends Resource
                         'lcr' => 'LCR',
                         'youth-camp' => 'Youth Camp',
                     ])
-                    ->default('lcr')
+                    ->default('youth-camp')
                     ->required(),
                 Forms\Components\TextInput::make('church')->maxLength(255),
             ]);
@@ -58,9 +58,12 @@ class YouthCampResource extends Resource
                     ->label('Full Name')
                     ->getStateUsing(fn($record) => trim($record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name . ' ' . $record->suffix)),
                     // ->searchable(),
+                Tables\Columns\TextColumn::make('first_name')->searchable(),
+                Tables\Columns\TextColumn::make('last_name')->searchable(),
                 Tables\Columns\TextColumn::make('gender'),
                 Tables\Columns\TextColumn::make('nickname')->searchable(),
-                Tables\Columns\TextColumn::make('contact_number')->searchable(),
+                Tables\Columns\TextColumn::make('gender'),
+                Tables\Columns\TextColumn::make('contact_number'),
                 Tables\Columns\TextColumn::make('birthday')->date()->sortable(),
                 Tables\Columns\TextColumn::make('age')
                     ->label('Age')
