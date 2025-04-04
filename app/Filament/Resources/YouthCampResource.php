@@ -54,10 +54,13 @@ class YouthCampResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('full_name')
+                    ->label('Full Name')
+                    ->getStateUsing(fn($record) => trim($record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name . ' ' . $record->suffix)),
+                    // ->searchable(),
                 Tables\Columns\TextColumn::make('first_name')->searchable(),
-                Tables\Columns\TextColumn::make('middle_name'),
                 Tables\Columns\TextColumn::make('last_name')->searchable(),
-                Tables\Columns\TextColumn::make('suffix'),
+                Tables\Columns\TextColumn::make('gender'),
                 Tables\Columns\TextColumn::make('nickname')->searchable(),
                 Tables\Columns\TextColumn::make('gender'),
                 Tables\Columns\TextColumn::make('contact_number'),
@@ -83,6 +86,13 @@ class YouthCampResource extends Resource
                         'Male' => 'Male',
                         'Female' => 'Female',
                     ]),
+                SelectFilter::make('church')
+                    ->label('Church')
+                    ->options([
+                        NULL => 'Visitors', // Special value for NULL filtering
+                        'FCC Bugayong' => 'FCC Bugayong',
+                        'FCC San Bonifacio' => 'FCC San Bonifacio',
+                    ])
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -93,6 +103,7 @@ class YouthCampResource extends Resource
                 ]),
             ]);
     }
+
 
     public static function getRelations(): array
     {
