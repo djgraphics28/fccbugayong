@@ -53,7 +53,7 @@ class YouthCampResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([,
+            ->columns([
                 Tables\Columns\TextColumn::make('first_name')->searchable(),
                 Tables\Columns\TextColumn::make('last_name')->searchable(),
                 Tables\Columns\TextColumn::make('suffix'),
