@@ -77,7 +77,7 @@ class YouthCampResource extends Resource
                         'lcr' => 'LCR',
                         'youth-camp' => 'Youth Camp',
                     ])
-                    ->default('lcr'),
+                    ->default('youth-camp'),
                 SelectFilter::make('gender')
                     ->options([
                         'Male' => 'Male',
