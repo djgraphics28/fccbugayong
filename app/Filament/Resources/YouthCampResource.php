@@ -53,13 +53,10 @@ class YouthCampResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('full_name')
-                    ->label('Full Name')
-                    ->getStateUsing(fn($record) => trim($record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name . ' ' . $record->suffix)),
-                    // ->searchable(),
+            ->columns([,
                 Tables\Columns\TextColumn::make('first_name')->searchable(),
                 Tables\Columns\TextColumn::make('last_name')->searchable(),
+                Tables\Columns\TextColumn::make('suffix'),
                 Tables\Columns\TextColumn::make('gender'),
                 Tables\Columns\TextColumn::make('nickname')->searchable(),
                 Tables\Columns\TextColumn::make('gender'),
