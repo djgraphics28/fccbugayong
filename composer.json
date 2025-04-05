@@ -12,6 +12,7 @@
         "jantinnerezo/livewire-alert": "^3.0",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
+        "pxlrbt/filament-excel": "^2.4",
         "spatie/laravel-medialibrary": "^11.11"
     },
     "require-dev": {
