@@ -22,3 +22,7 @@ Route::get('/lcr-preregistration', function () {
 Route::get('/couples-preregistration', function () {
     return view('couples-registration');
 })->name('couples-preregistration');
+
+Route::get('/scholarship-registration', function () {
+    return view('scholarship-registration');
+})->name('scholarship-preregistration');
