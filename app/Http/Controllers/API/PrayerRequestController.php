@@ -8,6 +8,18 @@ use App\Http\Controllers\Controller;
 
 class PrayerRequestController extends Controller
 {
+    public function index(Request $request)
+    {
+        $startDate = $request->query('start_date');
+        $endDate = $request->query('end_date');
+        $query = PrayerRequest::query();
+        if ($startDate && $endDate) {
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        }
+        $prayerRequests = $query->get();
+        return response()->json(['data' => $prayerRequests], 200);
+    }
+
     public function store(Request $request)
     {
         $request->validate([

@@ -12,4 +12,5 @@ Route::put('visitors/{visitor}', [VisitorController::class, 'update'])->name('vi
 Route::delete('visitors/{visitor}', [VisitorController::class, 'destroy'])->name('visitors.destroy');
 Route::get('visitors/search/{name}', [VisitorController::class, 'search'])->name('visitors.search');
 
+Route::get('prayer-request', [PrayerRequestController::class, 'index'])->name('prayer-request.index');
 Route::post('prayer-request', [PrayerRequestController::class, 'store'])->name('prayer-request.store');
